@@ -1,10 +1,13 @@
 # Netflix Gpt
 
 -Creta React App
--Configured Tailwind
+-Configured TailwindCSS
 -Header
+-Routing of App
 -Login Form
-Sign Up Form
+-Sign Up Form
+-Form validation
+-useRef hook
 
 # Features
 
@@ -17,7 +20,7 @@ Sign Up Form
 -Trailer in background
 -Name & Description
 -Movie Suggestions
--Movie List\*N
+-Movie List\
 -Netflix gpt
 -Search bar
 -Movie Suggestions
