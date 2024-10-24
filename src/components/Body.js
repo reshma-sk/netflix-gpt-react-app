@@ -21,6 +21,7 @@ const Body = () => {
             element:<Browse/>,
         },
     ])
+
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -38,10 +39,9 @@ const Body = () => {
             } else {
                 dispatch(removeUser());      
             }
+        })
     },[dispatch]);
 
-        
-    },[])
   return (
     <div>
         <RouterProvider router={appRouter}/>
