@@ -3,7 +3,7 @@ import Header from './Header'
 import { checkValidData } from '../utils/validate'
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword ,updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
+import { BG_IMG } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 
@@ -11,8 +11,9 @@ import { addUser } from '../utils/userSlice';
 const Login = () => {
   const[isSignInForm,setIsSignInForm] = useState(true)
   const[errorMessage,setErrorMessage] = useState(null)
-  const navigate = useNavigate();
+ 
   const dispatch = useDispatch()
+
   const name = useRef(null)
   const email = useRef(null);
   const password = useRef(null);
@@ -42,7 +43,6 @@ const Login = () => {
             const {uid,email,displayName} = auth.currentUser;
             dispatch(
               addUser(
-
                 {
                   uid:uid,
                   email:email,
@@ -50,16 +50,11 @@ const Login = () => {
                 }
               )
             )
-            navigate("/browse")
+            
           }).catch((error) => {
             // An error occurred
             setErrorMessage(error.message)
           });
-
-          console.log(user);
-          navigate("/browse")
-         
-         // ...
          })
         .catch((error) => {
          const errorCode = error.code;
@@ -75,15 +70,9 @@ const Login = () => {
         email.current.value,
         password.current.value
       )
-
       .then((userCredential) => {
-
         // Signed in 
         const user = userCredential.user;
-        console.log(user);
-        navigate("/browse")
-        
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -99,7 +88,7 @@ const Login = () => {
     <div>
         <Header/>
         <div className='absolute rounded-lg'>
-          <img src="https://assets.nflxext.com/ffe/siteui/vlv3/7c0e18aa-2c95-474d-802e-7f30e75dcca4/web/IE-en-20241014-TRIFECTA-perspective_f7c30d00-1997-4b51-9702-100f7ede5ff4_small.jpg"
+          <img src={BG_IMG}
            alt="background-img" />
         </div>
         <form onSubmit={(e)=>e.preventDefault()} className='w-3/12 mx-auto my-36 absolute
@@ -137,9 +126,6 @@ const Login = () => {
            {isSignInForm ? 'New To NetFlix?, Sig up now' : 'Already Registered? Sign in now'}
           </p>
         </form>
-        
-        
-
     </div>
   )
 }
