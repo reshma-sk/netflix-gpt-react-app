@@ -24,3 +24,4 @@
 -Netflix gpt
 -Search bar
 -Movie Suggestions
+-GPT search feature
