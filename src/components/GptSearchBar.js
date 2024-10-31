@@ -15,7 +15,7 @@ const GptSearchBar = () => {
   const searchMovieTMDB = async (movie)=>{
     const data = await fetch('https://api.themoviedb.org/3/search/movie?query=' + movie + '&include_adult=false&language=en-US&page=1', API_OPTIONS)
     const response = await data.json()
-    return response;  
+    return response.results;  
   }
   const handleGptSearchClick =async ()=>{
     //console.log(searchText.current.value);
@@ -37,20 +37,12 @@ const GptSearchBar = () => {
       const tmdbResults =await Promise.all(promiseArray)
       console.log(tmdbResults);
       
-      diapatch( addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults}));
+      diapatch(addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults}));
     
     } catch (error) {
       console.log("Something Went Wrong");
     }
-    {/*try{
-      const gptMovies = (R_MOVIES.choices[0]?.message?.content?.split(", "));
-      const promiseArray = gptMovies.map((movie)=>handleSuggestedMovies(movie))
-      const tmdbResults =await Promise.all(promiseArray)
-      diapatch( addGptMovieResult(tmdbResults));
-      
-    } catch (error) {
-      console.log("Something Went Wrong");
-    }*/}
+    
      
   }
 
