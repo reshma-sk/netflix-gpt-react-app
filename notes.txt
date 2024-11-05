@@ -1,0 +1,1 @@
+I made my page multiuingal by using Redux.

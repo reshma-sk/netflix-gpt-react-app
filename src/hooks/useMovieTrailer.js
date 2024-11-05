@@ -1,11 +1,11 @@
 import {useEffect} from 'react'
 import {API_OPTIONS} from '../utils/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTrailerVideo } from '../utils/movieSlice';
 
 const useMovieTrailer = (movieId) => {
     const dispatch = useDispatch();
-
+    const trailerVideo = useSelector(trailerVideo);
     //fetch trailer video, make an API call
     const getMovieVideos = async () => {
       const data = await fetch(
@@ -24,7 +24,7 @@ const useMovieTrailer = (movieId) => {
       dispatch(addTrailerVideo(trailer));
     };
     useEffect(() => {
-      getMovieVideos();
+     !trailerVideo && getMovieVideos();
     }, []);
   
 }
