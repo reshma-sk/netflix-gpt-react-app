@@ -5,28 +5,28 @@ import SecondarContainer from './SecondarContainer';
 import usePopularMovies from '../hooks/usePopularMovies';
 import GptSearch from './GptSearch';
 import { useSelector } from 'react-redux';
+import useTopRatedMovies from '../hooks/useTopRatedMovies';
+import useUpComigMovies from '../hooks/useUpComigMovies';
 
 const Browse = () => {
   const showGptSearch = useSelector(store=>store.gpt.showGptSearch)
-  useNowPlayingMovies();
+  useNowPlayingMovies();//fetchin data from tmdb api and put it into tore
   usePopularMovies();
+  useTopRatedMovies();
+  useUpComigMovies();
   
   return (
     <div>
-      <Header/>
-      {
-        showGptSearch ? (
-          <GptSearch/>
-        ):
+      <Header />
+      {showGptSearch ? (
+        <GptSearch />
+      ) : (
         <>
-        (
-          <MainContainer/>
-          <SecondarContainer/>
-        )
-        </>  
-      }  
+          <MainContainer />
+          <SecondarContainer />
+        </>
+      )}
     </div>
-  )
+  );
 }
-
 export default Browse

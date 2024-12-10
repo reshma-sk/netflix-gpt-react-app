@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const gptSlice = createSlice({
-    name:"gpt",
+    name:'gpt',
     initialState:{
         showGptSearch:false,
-        movieNames:null,
-        movieResults:null
     },
     reducers:{
         toggleGptSearchView:(state)=>{
@@ -18,6 +16,5 @@ const gptSlice = createSlice({
         }
     }
 })
-
 export const{toggleGptSearchView,addGptMovieResult} = gptSlice.actions;
 export default gptSlice.reducer;

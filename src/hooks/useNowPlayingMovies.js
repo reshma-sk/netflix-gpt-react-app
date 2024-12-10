@@ -5,7 +5,6 @@ import { API_OPTIONS } from '../utils/constants'
 
 function useNowPlayingMovies() {
     const dispatch = useDispatch();
-
     const nowPlayingMovies = useSelector((store)=>store.movies.nowPlayingMovies)
      const getNowPlayingMovies = async () => {
        const data = await fetch(

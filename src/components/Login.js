@@ -34,8 +34,9 @@ const Login = () => {
         password.current.value
       )
        .then((userCredential) => {
-         // Signed up 
+         // Sign up logic
          const user = userCredential.user;
+         console.log(user);
          updateProfile(user, {
           displayName: name.current.value,
           }).then(() => {
@@ -55,6 +56,7 @@ const Login = () => {
             // An error occurred
             setErrorMessage(error.message)
           });
+          
         })
         .catch((error) => {
          const errorCode = error.code;
@@ -73,6 +75,8 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        console.log(user);
+        
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -89,9 +93,9 @@ const Login = () => {
         <Header/>
         <div className='absolute rounded-lg'>
           <img src={BG_IMG}
-           alt="background-img" />
+           alt="background-img" className='h-screen object-cover md:w-screen' />
         </div>
-        <form onSubmit={(e)=>e.preventDefault()} className='w-3/12 mx-auto my-36 absolute
+        <form onSubmit={(e)=>e.preventDefault()} className='w-full md:w-3/12 mx-auto my-36 absolute
          bg-black rounded-lg p-12 right-0 left-0
           text-white bg-opacity-85'>
           <h1 className='font-bold text-3xl'>{isSignInForm ? 'Sign In' : 'Sign Up'}</h1>

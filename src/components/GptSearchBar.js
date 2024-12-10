@@ -1,25 +1,27 @@
-import { useSelector } from 'react-redux'
+import React,{useRef} from 'react'
 import { lang } from '../utils/languageConstants'
-import React, { useRef } from 'react'
-import client from '../utils/openai';
-//import { R_MOVIES } from '../utils/constants';
-import { API_OPTIONS } from '../utils/constants';
-import { useDispatch } from 'react-redux';
-import { addGptMovieResult } from '../utils/gptSlice';
+import { useSelector } from 'react-redux'
+import client from '../utils/openai'
+import { addGptMovieResult } from '../utils/gptSlice'
+import { API_OPTIONS } from '../utils/constants'
+import { useDispatch } from 'react-redux'
 
 const GptSearchBar = () => {
-  const diapatch = useDispatch();
-  const langKey = useSelector(store=>store.config.lang)
+  const dispatch = useDispatch()
+  const langkey = useSelector((store)=>store.config.lang);
   const searchText = useRef(null)
-  
+
   const searchMovieTMDB = async (movie)=>{
     const data = await fetch('https://api.themoviedb.org/3/search/movie?query=' + movie + '&include_adult=false&language=en-US&page=1', API_OPTIONS)
     const response = await data.json()
+    console.log(response.result);
+    
     return response.results;  
   }
-  const handleGptSearchClick =async ()=>{
+
+  const handleGptSearchClick = async ()=>{
     //console.log(searchText.current.value);
-    //Make an API call to GPT API and get movie results
+    //make an API call GPT API and get movie Results
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText.current.value +
@@ -32,37 +34,34 @@ const GptSearchBar = () => {
       });
       const gptMovies = gptResults.choices?.[0]?.message?.content?.split(", ");
       console.log(gptMovies);
-      const promiseArray = gptMovies.map((movie)=>searchMovieTMDB(movie))
-      const tmdbResults =await Promise.all(promiseArray)
+      const promiseArray = gptMovies.map((movie)=>searchMovieTMDB(movie))//it will give you 5 promises(an array of promises)
+      const tmdbResults = await Promise.all(promiseArray)
       console.log(tmdbResults);
-      diapatch(addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults}));
+      dispatch(addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults}));
     
     } catch (error) {
       console.log("Something Went Wrong");
     }  
+    
   }
 
   return (
-    <div className="pt-[10%] flex justify-center">
+    <div className="pt-[35%] md:pt-[10%] flex justify-center">
       <form
-        className=" w-1/2 bg-black  grid grid-cols-12"
+        className="w-full bg-black md:w-1/2 grid grid-cols-12"
         onSubmit={(e) => e.preventDefault()}
       >
         <input
-          type="text"
           ref={searchText}
-          className=" p-2 m-4 col-span-9"
-          placeholder={lang[langKey].gptSerarchPlaceHolder}
+          type="text"
+          placeholder={lang[langkey].gptSerarchPlaceHolder}
+          className="p-2 m-4 col-span-9"
         />
         <button
-          className=" bg-red-700 
-            text-white 
-            col-span-3 
-            m-4 
-            rounded-md"
+          className="text-white bg-red-700 col-span-3 p-2 m-4 rounded-md"
           onClick={handleGptSearchClick}
         >
-          {lang[langKey].search}
+          {lang[langkey].search}
         </button>
       </form>
     </div>

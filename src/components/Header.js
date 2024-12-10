@@ -23,7 +23,7 @@ const Header = () => {
       .catch((error) => {
         navigate("/error");
         // An error happened.
-      });
+      });  
   };
 
   useEffect(() => {
@@ -43,11 +43,12 @@ const Header = () => {
         navigate("/")
       }
     });
+    //Unsubscribe when my component unmounts
     return ()=>unsubscribe();
   }, []);
 
   const handleGptSearchClick = ()=>{
-    //Toggle Gpt search
+    //toggle
     dispatch(toggleGptSearchView());
   }
 
@@ -55,34 +56,33 @@ const Header = () => {
     dispatch(changeLanguage(e.target.value));
   }
   return (
-    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
+    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
       <img
-        className="w-44"
+        className="w-44 mx-auto md:mx-0"
         src={NETFLIX_LOGO}
         alt="Logo"
       />
       {user && (
-        <div className="my-3 flex">
-          {showGptSearch &&
-          <select className="p-2 m-2 bg-gray-900 text-white" onChange={handleLanguageChange}>
-            {SUPPORTED_LANGUAGES.map(lang=>{
-              return <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>
-            })}
-          </select>
+        <div className="my-3 flex justify-between">
+          {
+            showGptSearch &&(
+              <select className="bg-gray-800 text-white m-4 px-2 py-1" onChange={handleLanguageChange}>
+                {SUPPORTED_LANGUAGES.map(lang=><option key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
+              </select>
+            )
           }
-          
-          <h4>{user.displayName}</h4>
-          <button 
-          className="px-4 py-1 mx-2  
-          rounded-md my-2 bg-purple-600 
-          text-white" onClick={handleGptSearchClick}> {showGptSearch  ? "Home Page" : "GPT search"}
+          <button className="bg-purple-800 text-white mx-2 m-4 px-3 rounded-md py-1"
+          onClick={handleGptSearchClick}>
+            {showGptSearch ? 'Home Page' : 'GPT SEARCH'}
           </button>
+          
           <button
-            className="bg-red-700 text-white font-semibold px-1"
+            className="bg-red-700 text-white font-bold px-3 -py-1 rounded-md m-4"
             onClick={handleSignOut}
           >
             sign out
           </button>
+          <h3 className="text-white rounded-full px-4 text-2xl m-4 font-bold bg-purple-500 text-center">{user.displayName.slice(0,1)}</h3>
         </div>
       )}
     </div>

@@ -25,3 +25,6 @@
 -Search bar
 -Movie Suggestions
 -GPT search feature
+-Create SignUp User Account
+-Implement Sign In User API
+Creatd Redux Store with UserSlice

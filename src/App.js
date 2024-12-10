@@ -6,10 +6,7 @@ function App() {
   return (
     <Provider store={appstore}>
       <Body/>
-
-    </Provider>
-    
+    </Provider>  
   );
 }
-
 export default App;
