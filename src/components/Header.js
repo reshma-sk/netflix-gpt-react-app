@@ -82,7 +82,7 @@ const Header = () => {
           >
             sign out
           </button>
-          <h3 className="text-white rounded-full px-4 text-2xl m-4 font-bold bg-purple-500 text-center">{user.displayName.slice(0,1)}</h3>
+          {/*<h3 className="text-white rounded-full px-4 text-2xl m-4 font-bold bg-purple-500 text-center">{user.displayName.slice(0,1)}</h3>*/}
         </div>
       )}
     </div>
