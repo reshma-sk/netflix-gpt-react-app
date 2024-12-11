@@ -12,37 +12,44 @@ const GptSearchBar = () => {
   const searchText = useRef(null)
 
   const searchMovieTMDB = async (movie)=>{
-    const data = await fetch('https://api.themoviedb.org/3/search/movie?query=' + movie + '&include_adult=false&language=en-US&page=1', API_OPTIONS)
+    const data = await fetch(
+      'https://api.themoviedb.org/3/search/movie?query=' + 
+      movie + 
+      '&include_adult=false&language=en-US&page=1', 
+      API_OPTIONS
+    )
     const response = await data.json()
     console.log(response.result);
-    
     return response.results;  
   }
 
   const handleGptSearchClick = async ()=>{
-    //console.log(searchText.current.value);
+    console.log(searchText.current.value);
     //make an API call GPT API and get movie Results
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText.current.value +
       ". only give me names of 5 movies, comma seperated like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
 
-    try {
+    
       const gptResults = await client.chat.completions.create({
         messages: [{ role: "user", content: gptQuery }],
         model: "gpt-3.5-turbo",
       });
+      if (!gptResults.choices) {
+        // TODO: Write Error Handling
+      }
+      console.log(gptResults.choices?.[0]?.message?.content);
+
       const gptMovies = gptResults.choices?.[0]?.message?.content?.split(", ");
       console.log(gptMovies);
+
       const promiseArray = gptMovies.map((movie)=>searchMovieTMDB(movie))//it will give you 5 promises(an array of promises)
       const tmdbResults = await Promise.all(promiseArray)
       console.log(tmdbResults);
-      dispatch(addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults}));
-    
-    } catch (error) {
-      console.log("Something Went Wrong");
-    }  
-    
+      dispatch(
+        addGptMovieResult({movieNames:gptMovies, movieResults:tmdbResults})
+      );  
   }
 
   return (
